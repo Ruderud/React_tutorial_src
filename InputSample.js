@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
 
 function InputSample() {
-    const [text, setText] = useState('');
+    const [inputs, setInputs] = useState({
+        name : '',
+        nickname: '',
+    });
+    const {name, nickname} = inputs;        {/*비구조화 할당을 사용 */}
 
     const onChange = (e) => {
-        setText(e.target.value);       {/* 이벤트가 일어났을때, 이벤트안에있는 e.target은 돔에대한 정보를 가지고있음. 따라서 console.log(e.target.value);는 인풋창에 입력한 정보를 가지게되고 이를 콘솔에 출력하게됨*/}
-    }
+        const {name, value} = e.target;
+        
+        setInputs({
+            ...inputs,
+            [name]: value,
+        });                                  {/* [name]값에따라 value값을 맞춰서 가져옴 => input value의 불변성을 지켜줌. 
+                                                객체상태를 업데이트할떄는 '...'을 사용하는 스프레드문법을 이용해서 값을 복사해서 상태를 업데이트 해줘야한다.*/}
+    };
     
     const onReset = () => {
-        setText('');
-    }
+        setInputs({
+            name: '',
+            nickname: '',
+        });
+    };
+
     return (
         <div>
-            <input onChange={onChange} value={text} />   
+            <input 
+                name='name' 
+                placeholder="이름" 
+                onChange={onChange} 
+                value={name}
+            />
+            <input 
+                name='nickname' 
+                placeholder="닉네임" 
+                onChange={onChange} 
+                value={nickname}
+            />  
             <button onClick={onReset}>초기화</button>
             <div>
                 <b>값:</b>
-                {text}
+                {name} ({nickname})
             </div>
         </div>
     );
