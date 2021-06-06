@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 function InputSample() {
     const [inputs, setInputs] = useState({
         name : '',
         nickname: '',
     });
+
+    const nameInput = useRef();
+
     const {name, nickname} = inputs;        {/*비구조화 할당을 사용 */}
 
     const onChange = (e) => {
@@ -22,7 +25,8 @@ function InputSample() {
             name: '',
             nickname: '',
         });
-    };
+        nameInput.current.focus();
+    };                                  {/* 이 nameInput.current가 DOM을 가르킨다 */}
 
     return (
         <div>
@@ -31,7 +35,8 @@ function InputSample() {
                 placeholder="이름" 
                 onChange={onChange} 
                 value={name}
-            />
+                ref={nameInput}
+            />                          {/* 위의 nameInput.current.focus();를 통해, onReset함수 실행시 이름인풋창을 자동으로 선택하게된다. */}
             <input 
                 name='nickname' 
                 placeholder="닉네임" 
