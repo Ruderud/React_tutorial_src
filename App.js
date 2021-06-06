@@ -21,21 +21,25 @@ function App() {
         id: 1,
         username: '페코린느',
         email: 'pecopeco@cygames.com',
+        active: true,
     },
     {
         id: 2,
         username: '콧코로',
         email: 'kokkoro@cygames.com',
+        active: false,
     },
     {
         id: 3,
         username: '캬루',
         email: 'imTraitor@cygames.com',
+        active: false,
     }, 
     {
       id: 4,
       username: '복제된 캬루',
       email: 'imTraitor@cygames.com',
+      active: false,
   }, 
 ]); {/* 이때 이 배열에 대해서 splice, sort, push같은함수는 사용하면안된다! 꼭 사용하고싶다면 배열을 복사해서 사용해야함 -> 배열의 불변성을 위함 */}
 
@@ -61,10 +65,19 @@ function App() {
   const onRemove = id => {
     setUsers(users.filter(user => user.id !== id)); //기존 user리스트를 받아와서 그내부의 id값이입력한 id값과 다르면놔두고, id와 같은거면 지워서 그 프로퍼티들을 배열로 만들어 반환한다.
   };
+
+  const onToggle = id => {
+    setUsers(users.map(
+      user => user.id === id 
+        ? {...user, active: !user.active} //기존값을 먼저 가져오고, 그중에 바꿔줄값을 함수에따라 덮어씌우는 방식으로 사용한다.
+        : user
+    ));
+  };
+
   return (
     <>
       <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
-      <UserList users={users} onRemove={onRemove}/>
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
     </>
   )
 }
