@@ -10,4 +10,4 @@ function CreateUser({ username, email, onChange, onCreate}) {
     )
 }
 
-export default CreateUser;
+export default React.memo(CreateUser);  //이렇게 export처리시, Props가 바뀔때에만 랜더링시작함.
