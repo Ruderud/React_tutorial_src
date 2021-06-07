@@ -1,6 +1,7 @@
 import React, {useRef, useReducer, useMemo, useCallback } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
+import useInputs from './useInputs'
 
 function countActiveUsers(users) {
   console.log('활성 사용자수를 세는중...');   //useMemo를 사용하기전에는 실제로 user에 등록하지않고 input창에만 값을 타이핑하고있는 그순간마다 랜더링하며 연산을 하게된다.
@@ -8,10 +9,10 @@ function countActiveUsers(users) {
 }
 
 const initialState = {
-  inputs: {
-    username: '',
-    email: '',
-  },
+  // inputs: {
+  //   username: '',
+  //   email: '',
+  // },   -> useInput컴포넌트의 hook을 사용하므로 놔둘필요가 없음
   users: [
     {
         id: 1,
@@ -36,14 +37,14 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value
-        }
-      };
+    // case 'CHANGE_INPUT':
+    //   return {
+    //     ...state,
+    //     inputs: {
+    //       ...state.inputs,
+    //       [action.name]: action.value
+    //     }
+    //   };     -> useInput컴포넌트의 hook을 사용하므로 case를 놔둘필요가 없음
     case 'CREATE_USER' :
       return {
         inputs: initialState.inputs,
@@ -70,18 +71,23 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [form, onChange, reset] = useInputs({
+    username: '',
+    email: '',
+  });
+  const { username, email} = form;
   const nextid = useRef(4);
   const { users } = state;
-  const { username, email } = state.inputs;
+  // const { username, email } = state.inputs;
 
-  const onChange = useCallback(e => {
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    })
-  }, []);
+  // const onChange = useCallback(e => {
+  //   const { name, value } = e.target;
+  //   dispatch({
+  //     type: 'CHANGE_INPUT',
+  //     name,
+  //     value
+  //   })
+  // }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -93,7 +99,8 @@ function App() {
       }
     })
     nextid.current += 1;
-  }, [username, email])
+    reset();
+  }, [username, email, reset])
 
   const onToggle = useCallback(id => {
     dispatch({
