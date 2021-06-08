@@ -9,7 +9,7 @@ function countActiveUsers(users) {
 }
 
 const initialState = {
-  // inputs: {
+  // inputs: {  
   //   username: '',
   //   email: '',
   // },   -> useInput컴포넌트의 hook을 사용하므로 놔둘필요가 없음
