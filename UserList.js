@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserDispatch } from './App'
 
-const User = React.memo( function User ({ user, onRemove, onToggle }) {
+const User = React.memo( function User ({ user/*, onRemove, onToggle -> UserDispatch로 이동 */}) {
     const {username, email, id, active} = user;
+    const dispatch = useContext(UserDispatch); 
 
     // useEffect(() => {
     //     console.log('유저값이 설정됨');
@@ -29,20 +31,26 @@ const User = React.memo( function User ({ user, onRemove, onToggle }) {
                     color: active ? 'green' : 'black',
                     cursor: 'pointer'
                 }}
-                    onClick={() => onToggle(id)}
+                    onClick={() => dispatch ({
+                       type: 'TOGGLE_USER',
+                       id 
+                    })}
                 >
                     {username}
                 </b>
                 &nbsp;
                 <span>({email})</span>
-                <button onClick={() => onRemove(id)}>삭제</button>  
+                <button onClick={() => dispatch ({
+                    type: 'REMOVE_USER',
+                    id
+                })}>삭제</button>  
                 {/* 절대 <button onClick={onRemove(id)}>삭제</button> 이런식으로 함수를 호출하지말고, 함수를 만들어서 써야한다! 
                 (호출하는방식이면 삭제를 누르면 랜더링되면서 리스트 전부가 지워져버림)*/}
         </div>
     );
 });
 
-function UserList({ users, onRemove, onToggle}) {
+function UserList({ users /*, onRemove, onToggle -> UserDispatch로 이동 */ }) { 
     return(
         <div>
         {
@@ -51,8 +59,8 @@ function UserList({ users, onRemove, onToggle}) {
                 <User 
                     user={user} 
                     key={user.id} 
-                    onRemove={onRemove} 
-                    onToggle={onToggle}
+                    // onRemove={onRemove}  -> UserDispatch로 이동
+                    // onToggle={onToggle} 
                 />
                 )
             ) 
