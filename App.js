@@ -9,10 +9,6 @@ function countActiveUsers(users) {
 }
 
 const initialState = { 
-  // inputs: {  
-  //   username: '',
-  //   email: '',
-  // },   -> useInput컴포넌트의 hook을 사용하므로 놔둘필요가 없음
   users: [
     {
         id: 1,
@@ -37,14 +33,6 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    // case 'CHANGE_INPUT':
-    //   return {
-    //     ...state,
-    //     inputs: {
-    //       ...state.inputs,
-    //       [action.name]: action.value
-    //     }
-    //   };     -> useInput컴포넌트의 hook을 사용하므로 case를 놔둘필요가 없음
     case 'CREATE_USER' :
       return {
         inputs: initialState.inputs,
@@ -62,7 +50,7 @@ function reducer(state, action) {
     case 'REMOVE_USER':
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.id) //일치하면 삭제, 불일치시 유지
+        users: state.users.filter(user => user.id !== action.id)
       };
     default:
       throw new Error('Unhanded action');
@@ -80,16 +68,6 @@ function App() {
   const { username, email} = form;
   const nextid = useRef(4);
   const { users } = state;
-  // const { username, email } = state.inputs;
-
-  // const onChange = useCallback(e => {
-  //   const { name, value } = e.target;
-  //   dispatch({
-  //     type: 'CHANGE_INPUT',
-  //     name,
-  //     value
-  //   })
-  // }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -104,20 +82,6 @@ function App() {
     reset();
   }, [username, email, reset])
 
-  // const onToggle = useCallback(id => {
-  //   dispatch({
-  //     type: 'TOGGLE_USER',
-  //     id
-  //   });
-  // }, []);
-
-  // const onRemove = useCallback(id => {
-  //   dispatch({
-  //     type: 'REMOVE_USER',
-  //     id
-  //   });
-  // }, []);          -> onToggle과 onRemove를 userDispatch context를 통해서 UserList에서 직접 사용할 것이므로 주석처리
-
   const count = useMemo(() => countActiveUsers(users), [users])
 
   return (
@@ -131,8 +95,6 @@ function App() {
       />
       <UserList 
         users={users}
-        // onToggle={onToggle}
-        // onRemove={onRemove} -> onToggle과 onRemove를 userDispatch context를 통해서 UserList에서 직접 사용할 것이므로 주석처리
       />
       <div>활성 사용자 수: {count}</div>
 
