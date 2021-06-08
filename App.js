@@ -8,7 +8,7 @@ function countActiveUsers(users) {
   return users.filter(user => user.active).length;
 }
 
-const initialState = {
+const initialState = { 
   // inputs: {  
   //   username: '',
   //   email: '',
