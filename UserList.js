@@ -33,7 +33,7 @@ const User = React.memo( function User ({ user/*, onRemove, onToggle -> UserDisp
                 }}
                     onClick={() => dispatch ({
                        type: 'TOGGLE_USER',
-                       id 
+                       id
                     })}
                 >
                     {username}
@@ -53,9 +53,8 @@ const User = React.memo( function User ({ user/*, onRemove, onToggle -> UserDisp
 function UserList({ users /*, onRemove, onToggle -> UserDispatch로 이동 */ }) { 
     return(
         <div>
-        {
-            users.map(
-                (user) => (
+        {users.map(
+            (user) => (
                 <User 
                     user={user} 
                     key={user.id} 
@@ -63,7 +62,7 @@ function UserList({ users /*, onRemove, onToggle -> UserDispatch로 이동 */ })
                     // onToggle={onToggle} 
                 />
                 )
-            ) 
+            )
         }       {/* 각 객체의 키값을 특정할수있는 key(여기서는 id)가 따로 정해져있지 않다면, index값을 가져와서 사용한다. -> 다만 효율적인 상승은 기대할 수 없음
                  (user, index) => (<User user={user} key={index}/>) */}
         </div>
